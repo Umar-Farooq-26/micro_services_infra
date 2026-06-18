@@ -42,6 +42,7 @@ jobs:
           tflint --init
           tflint -f compact
 
+
       - name: Run tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
