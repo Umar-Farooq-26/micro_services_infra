@@ -11,10 +11,7 @@ permissions:
   contents: read
   pull-requests: write # Required to post PR comments
 
-env: 
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+env:
   ARM_USE_OIDC: true
   TF_WORKING_DIR: './environment/dev'
 
@@ -30,7 +27,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Format Check
-        run: terraform fmt -recursive
+        run: terraform fmt -check -recursive
 
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v4
@@ -58,10 +55,21 @@ jobs:
     name: 'Terraform Plan'
     needs: lint-and-scan
     runs-on: ubuntu-latest
+    environment: dev
     if: github.event_name == 'pull_request'
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Debug secrets presence
+        run: |
+          echo "Client ID set: ${{ env.ARM_CLIENT_ID != '' }}"
+          echo "Tenant ID set: ${{ env.ARM_TENANT_ID != '' }}"
+          echo "Sub ID set: ${{ env.ARM_SUBSCRIPTION_ID != '' }}"
 
       - name: Azure Login
         uses: azure/login@v2
@@ -114,7 +122,12 @@ jobs:
     name: 'Terraform Apply'
     needs: lint-and-scan
     runs-on: ubuntu-latest
+    environment: dev
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
