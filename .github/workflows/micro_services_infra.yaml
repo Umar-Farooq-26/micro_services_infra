@@ -119,6 +119,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug secrets presence
+        run: |
+          echo "Client ID set: ${{ env.ARM_CLIENT_ID != '' }}"
+          echo "Tenant ID set: ${{ env.ARM_TENANT_ID != '' }}"
+          echo "Sub ID set: ${{ env.ARM_SUBSCRIPTION_ID != '' }}"
+
       - name: Azure Login
         uses: azure/login@v2
         with:
