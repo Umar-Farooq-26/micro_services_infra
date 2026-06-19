@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api-service-pdb
+  namespace: microservices
+spec:
+  minAvailable: 1       # At least 1 pod must stay up during node drains / upgrades
+  selector:
+    matchLabels:
+      app: api-service
