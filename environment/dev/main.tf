@@ -95,7 +95,6 @@ module "aks" {
   log_analytics_id    = module.log_analytics["law1"].workspace_id
   tags                = local.common_tags
 
-  # tenant_id           = each.value.tenant_id
   tenant_id = each.value.tenant_id
 
   depends_on = [module.vnet, module.log_analytics]
