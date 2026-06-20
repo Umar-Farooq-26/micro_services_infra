@@ -7,3 +7,9 @@ variable "aks_kubelet_identity_object_id" {
   description = "Object ID of the AKS kubelet managed identity"
   type        = string
 }
+
+variable "create_role_assignment" {
+  description = "Whether to create the ACR pull role assignment for AKS"
+  type        = bool
+  default     = false
+}

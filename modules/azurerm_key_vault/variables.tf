@@ -24,6 +24,12 @@ variable "tenant_id" {
   type        = string
 }
 
+variable "create_role_assignment" {
+  description = "Whether to create the Key Vault Administrator role assignment for the deploying principal"
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "Tags to apply"
   type        = map(string)
