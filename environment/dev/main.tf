@@ -111,4 +111,4 @@ module "acr_aks_role" {
   aks_kubelet_identity_object_id = module.aks["aks1"].kubelet_identity_object_id
 
   depends_on = [module.acr, module.aks]
-}
+} 
