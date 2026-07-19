@@ -15,6 +15,7 @@ env:
   ARM_USE_OIDC: true
   TF_WORKING_DIR: './environment/dev'
 
+
 jobs:
   lint-and-scan:
     name: 'Lint and Security Scan'
